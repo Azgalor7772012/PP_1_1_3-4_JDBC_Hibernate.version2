@@ -13,7 +13,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
-        String create = "CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY auto_increment, name VARCHAR(100), " +
+        String create = "CREATE TABLE IF NOT EXISTS user (id INT not null PRIMARY KEY auto_increment, name VARCHAR(100), " +
                 "lastname VARCHAR(100), age INT)";
 
         try(Connection connection = Util.getConnection();
@@ -25,7 +25,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void dropUsersTable() {
-        String delete = "DROP TABLE IF EXISTS users";
+        String delete = "DROP TABLE IF EXISTS User";
         try(Connection connection = Util.getConnection();
             Statement statement = connection.createStatement()) {
             statement.execute(delete);
@@ -36,7 +36,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String add = "INSERT INTO users (name, lastname, age) VALUES (?, ?, ?)";
+        String add = "INSERT INTO User (name, lastname, age) VALUES (?, ?, ?)";
         try(Connection connection = Util.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(add)) {
             preparedStatement.setString(1, name);
@@ -50,7 +50,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void removeUserById(long id) {
-        String delete = "DELETE FROM users WHERE id = ?";
+        String delete = "DELETE FROM User WHERE id = ?";
         try(Connection connection = Util.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(delete)) {
             preparedStatement.setLong(1, id);
@@ -63,7 +63,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
 
-        String selectAll = "SELECT * FROM users";
+        String selectAll = "SELECT * FROM User";
 
         try(Connection connection = Util.getConnection();
         Statement statement = connection.createStatement()) {
