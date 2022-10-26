@@ -30,7 +30,7 @@ public class Main {
 
         UserDaoHibernateImpl user1 = new UserDaoHibernateImpl();
 //        таблица
-        user.createUsersTable();
+        user1.createUsersTable();
 
 //        4юзера
         user1.saveUser("Lena", "tuk", (byte) 23);
@@ -43,8 +43,8 @@ public class Main {
         System.out.println(listOfUsers);
 
 //        чистим таблицу
-        user.cleanUsersTable();
+        user1.cleanUsersTable();
         //удаляем таблицу
-        user.dropUsersTable();
+        user1.dropUsersTable();
     }
 }

@@ -22,14 +22,15 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void createUsersTable() {
-        String create = "CREATE TABLE IF NOT EXISTS user (id INT not null primary key auto_increment, name VARCHAR(40), " +
-                "lastname VARCHAR(40), age INT)";
+        String create = "CREATE TABLE IF NOT EXISTS user (id INT not null primary key auto_increment, name VARCHAR(100), " +
+                "lastname VARCHAR(100), age INT)";
 
-        try (Connection connection = Util.getConnection();
-             Statement statement = connection.createStatement()) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.createSQLQuery(create).executeUpdate();
+            session.getTransaction().commit();
 
-            statement.executeQuery(create);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -38,11 +39,12 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         String drop = "DROP TABLE IF EXISTS user";
 
-        try (Connection connection = Util.getConnection();
-             Statement statement = connection.createStatement()) {
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            session.createSQLQuery(drop).executeUpdate();
+            session.getTransaction().commit();
 
-            statement.executeQuery(drop);
-        } catch(SQLException e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }
